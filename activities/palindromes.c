@@ -43,8 +43,35 @@ void display(node* head){
 
 }
 
-bool ispalindrome(){
+int nodelen(node* head){
+    
+    node* ptr = head;
+    int count = 0;
+    while(ptr != NULL){
+        count++;
+        ptr = ptr->next;
+    }
 
+    return count;
+}
+
+bool ispalindrome(node* head){
+    node* curr = head;
+    int len = nodelen(head);
+    node* arr[len];
+    int index = 0;
+    while(curr != NULL){
+       arr[index] = curr;
+       index++;
+       curr = curr->next;
+    }
+    for(int i = 0 ; i < len/2; i++){
+        if(arr[i]->data != arr[len - i - 1]->data) return false;
+    }
+
+    free(arr);
+    return true;
+    
 }
 
 int main(){
@@ -57,14 +84,21 @@ int main(){
     printf("Enter size: ");
     scanf("%d", &size);
 
+    printf("Enter data for node datas\n> ");
     for(int i = 0; i < size; i++){
-        printf("Enter data for node %d: ", i + 1);
         scanf("%d", &data);
         node* newnode = createnewnode(data);
         linknodes(&head, newnode);
     }
 
     display(head);
+    bool ispal = ispalindrome(head);
+    if(ispal){
+        printf("True");
+    }else{
+        printf("FALSE");
+    }
+    printf("RAWR");
 
     return 0;
 }
