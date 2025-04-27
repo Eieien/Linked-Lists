@@ -1,0 +1,2 @@
+
+    node* ptr = *head;
