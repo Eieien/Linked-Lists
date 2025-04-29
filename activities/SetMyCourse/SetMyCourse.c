@@ -22,6 +22,7 @@ void deleteCriminalTowns(Town** head) {
                     prev->next = next;
                 }
                 flag = 1;
+                free(curr);
                 break;
             }
         }
@@ -60,6 +61,8 @@ void HuntCriminals(Town** head) {
             }else{
                 prev->next = next;
             }
+            free(curr);
+
             denode = 1;
         }
         if(denode == 0)prev = curr;
@@ -83,6 +86,7 @@ void deleteHighGoldTowns(Town** head, int budget) {
             }else{
                 prev->next = next;
             }
+            free(curr);
             flag = 1;
         }
 
