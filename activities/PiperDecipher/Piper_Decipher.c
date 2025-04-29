@@ -36,7 +36,7 @@ Mage* eligibleMage(Mage* students, int* count, int minmana, int maxmana) {
     Mage* curr = students;
     Mage* prev = NULL;
     
-    while(curr != NULL && (curr->level > maxmana)){
+    while(curr != NULL && (curr->level > maxmana || curr->level < minmana)){
         curr = curr->next;
     }    
 
