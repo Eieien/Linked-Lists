@@ -6,130 +6,229 @@
 
 // Function for Nobles. Delete Towns with...
 void deleteCriminalTowns(Town** head) {
-    Town* curr = *head;
-    Town* prev = NULL;
+    Town** trav;
+    Town* curr;
     Town* next = NULL;
     int flag = 0;
-    while(curr != NULL){
-        flag = 0;
-        next = curr->next;
 
+    trav = head;
+    while(*trav != NULL){
+        curr = *trav;
+        next = curr->next;
+        flag = 0;
         for(int i = 0; i < 3; i++){
             if(strcmp(curr->VIP[i].job, "Thief") == 0 || strcmp(curr->VIP[i].job, "Bandit") == 0 ){
-                if(prev == NULL){
-                    *head = next;
-                }else{
-                    prev->next = next;
-                }
+                *trav = next;
                 flag = 1;
                 free(curr);
                 break;
             }
         }
-        if(flag == 0)prev = curr;
-        curr = next;
+        if(flag == 0)trav = &((*trav)->next);
     }
+    
+    // Town* curr = *head;
+    // Town* prev = NULL;
+    // Town* next = NULL;
+    // int flag = 0;
+    // while(curr != NULL){
+    //     flag = 0;
+    //     next = curr->next;
+
+    //     for(int i = 0; i < 3; i++){
+    //         if(strcmp(curr->VIP[i].job, "Thief") == 0 || strcmp(curr->VIP[i].job, "Bandit") == 0 ){
+    //             if(prev == NULL){
+    //                 *head = next;
+    //             }else{
+    //                 prev->next = next;
+    //             }
+    //             flag = 1;
+    //             free(curr);
+    //             break;
+    //         }
+    //     }
+    //     if(flag == 0)prev = curr;
+    //     curr = next;
+    // }
 }
 
 // Function for Knights. Delete Towns that do not have... but have...
 void HuntCriminals(Town** head) {
-    Town* curr = *head;
-    Town* prev = NULL;
-    Town* next = NULL;
-    int guardflag = 0;
-    int criminalflag = 0;
-    int denode = 0;
+    Town** trav;
+    Town* curr;
+    Town* next =NULL;
+    int guardflag =0;
+    int criminalflag =0;
+    int deprev = 0;
+    trav = head;
 
-    while(curr != NULL){
+    while(*trav != NULL){
         guardflag = 0;
         criminalflag = 0;
-        denode = 0;
+        deprev = 0;
+        curr = *trav;
         next = curr->next;
 
         for(int i = 0; i < 3; i++){
             if(strcmp(curr->VIP[i].job, "Guard") == 0){
                 guardflag = 1;
-            }else if(strcmp(curr->VIP[i].job, "Thief") == 0 || strcmp(curr->VIP[i].job, "Bandit") == 0){
-                criminalflag = 1;
             }
 
+            if(strcmp(curr->VIP[i].job, "Thief") == 0 || strcmp(curr->VIP[i].job, "Bandit") == 0){
+                criminalflag = 1;
+            }
         }
 
         if(criminalflag == 0 || guardflag == 1){
-            if(prev == NULL){
-                *head = next;
-            }else{
-                prev->next = next;
-            }
+            *trav = next;
             free(curr);
-
-            denode = 1;
+            deprev = 1;
         }
-        if(denode == 0)prev = curr;
-        curr = next;
+
+        if(deprev == 0)trav = &((*trav)->next);
     }
+    
+    // Town* curr = *head;
+    // Town* prev = NULL;
+    // Town* next = NULL;
+    // int guardflag = 0;
+    // int criminalflag = 0;
+    // int denode = 0;
+
+    // while(curr != NULL){
+    //     guardflag = 0;
+    //     criminalflag = 0;
+    //     denode = 0;
+    //     next = curr->next;
+
+    //     for(int i = 0; i < 3; i++){
+    //         if(strcmp(curr->VIP[i].job, "Guard") == 0){
+    //             guardflag = 1;
+    //         }else if(strcmp(curr->VIP[i].job, "Thief") == 0 || strcmp(curr->VIP[i].job, "Bandit") == 0){
+    //             criminalflag = 1;
+    //         }
+
+    //     }
+
+    //     if(criminalflag == 0 || guardflag == 1){
+    //         if(prev == NULL){
+    //             *head = next;
+    //         }else{
+    //             prev->next = next;
+    //         }
+    //         free(curr);
+
+    //         denode = 1;
+    //     }
+    //     if(denode == 0)prev = curr;
+    //     curr = next;
+    // }
 }
 
 // Function for Merchants.
 void deleteHighGoldTowns(Town** head, int budget) {
-    Town* curr = *head;
-    Town* prev = NULL;
+    Town** trav;
     Town* next = NULL;
+    Town* curr;
+    trav = head;
     int flag = 0;
 
-    while(curr != NULL){
+    while(*trav != NULL){
         flag = 0;
+        curr = *trav;
         next = curr->next;
+
         if(curr->gold > budget){
-            if(prev == NULL){
-                *head = next;
-            }else{
-                prev->next = next;
-            }
+            *trav = next;
             free(curr);
             flag = 1;
         }
 
-        if(flag == 0)prev = curr;
-        curr = next;
+        if(flag == 0) trav = &((*trav)->next);
     }
+    
+    // Town* curr = *head;
+    // Town* prev = NULL;
+    // Town* next = NULL;
+    // int flag = 0;
+
+    // while(curr != NULL){
+    //     flag = 0;
+    //     next = curr->next;
+    //     if(curr->gold > budget){
+    //         if(prev == NULL){
+    //             *head = next;
+    //         }else{
+    //             prev->next = next;
+    //         }
+    //         free(curr);
+    //         flag = 1;
+    //     }
+
+    //     if(flag == 0)prev = curr;
+    //     curr = next;
+    // }
     
 }
 
 // Function to sort the list based on distance
 void sortTownsByDistance(Town** head) {
-    Town* curr = *head;
+    Town** trav;
+    Town* curr = NULL;
     Town* next = NULL;
-    Town* prev = NULL;
+
     int swap = 1;
-    while(swap){
-        curr = *head;
-        prev = NULL;
+    while(swap == 1){
+        trav = head;
         swap = 0;
 
-        while(curr->next != NULL){
+        while((*trav)->next != NULL){
+            curr = *trav;
             next = curr->next;
 
             if(strcmp(curr->distance, next->distance) == 1){
-                if(prev == NULL){
-                    curr->next = next->next;
-                    next->next = curr;
-                    *head = next;
-                }else{
-                    curr->next = next->next;
-                    next->next = curr;
-                    prev->next = next;
-                }
-                prev = next;
+                curr->next = next->next;
+                next->next = curr;
+                *trav = next;
                 swap = 1;
-
-            }else{
-                prev = curr;
-                curr = next;
             }
-        }
 
+            trav = &((*trav)->next);
+        }
     }
+    
+    // Town* curr = *head;
+    // Town* next = NULL;
+    // Town* prev = NULL;
+    // int swap = 1;
+    // while(swap){
+    //     curr = *head;
+    //     prev = NULL;
+    //     swap = 0;
+
+    //     while(curr->next != NULL){
+    //         next = curr->next;
+
+    //         if(strcmp(curr->distance, next->distance) == 1){
+    //             if(prev == NULL){
+    //                 curr->next = next->next;
+    //                 next->next = curr;
+    //                 *head = next;
+    //             }else{
+    //                 curr->next = next->next;
+    //                 next->next = curr;
+    //                 prev->next = next;
+    //             }
+    //             prev = next;
+    //             swap = 1;
+
+    //         }else{
+    //             prev = curr;
+    //             curr = next;
+    //         }
+    //     }
+
+    // }
     
 
 }

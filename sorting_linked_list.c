@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 typedef struct node{
 
@@ -35,24 +36,34 @@ void display(node* head){
 
 void sorting(node** head){
 
-    node* ptr = *head;
-    node* prev = NULL;
-    node* temp = NULL;
-    while(ptr != NULL){
-        if(ptr->data > ptr->next->data){
-            temp = ptr->next;
-            ptr->next->data = ptr->data;
-            ptr->data = temp->data;
+    node** trav = head;
+    node* next = NULL;
+    node* curr;
+    bool swapped = true;
+
+    while(swapped){
+        swapped = false;
+        trav = head;
+        while((*trav)->next != NULL){
+            curr = *trav;
+            next = curr->next;
+
+            if(curr->data > next->data){
+                curr->next = next->next;
+                next->next = curr;
+                *trav = next;
+                swapped = true;
+            }
+
+            trav = &((*trav)->next);
         }
     }
-
-    // *head = ptr;
 }
 
 int main(){
     
     node* head = NULL;
-    node* n1 = createnode(1);
+    node* n1 = createnode(9);
     node* n2 = createnode(6);
     node* n3 = createnode(1);
     node* n4 = createnode(8);
@@ -67,7 +78,6 @@ int main(){
     n6->next = NULL;
 
     head = n1;
-
     display(head);
     sorting(&head);
     display(head);
