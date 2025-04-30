@@ -12,26 +12,10 @@ typedef struct node{
 
 void insertsorted(node** head, node* newnode){
 
-    // node** trav;
-    // for(trav = head; *trav != NULL && strcmp((*trav)->name, newnode->name) < 0; trav = &((*trav)->link)){}
-    // newnode->link = *trav;
-    // *trav = newnode;
-
-    if(*head == NULL){
-        newnode->link = *head;
-        *head = newnode;
-    }else{
-        node* curr = *head;
-        
-        while(strcmp(curr->name, newnode->name) < 0){
-            curr = curr->link;
-        }
-
-        newnode->link = curr->link;
-        curr->link = newnode;
-
-
-    }
+    node** trav;
+    for(trav = head; *trav != NULL && strcmp((*trav)->name, newnode->name) < 0; trav = &((*trav)->link)){}
+    newnode->link = *trav;
+    *trav = newnode;
 
 
 }
